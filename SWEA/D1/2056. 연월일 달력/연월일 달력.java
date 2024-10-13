@@ -12,19 +12,19 @@ class Solution {
         for(int i = 1 ; i <= num ; i++){
             String str = br.readLine();
             
-            int year = Integer.parseInt(str.substring(0,4));
-            int month = Integer.parseInt(str.substring(4,6));
-            int day = Integer.parseInt(str.substring(6,8));
-            if(month < 1 || month > 12 ||
-               day > arrDay[month -1] || day<1){
+            String year = str.substring(0,4);
+            String month = str.substring(4,6);
+            String day = str.substring(6,8);
+            
+            if(Integer.parseInt(month) < 1 || 
+               Integer.parseInt(month) > 12 ||
+               Integer.parseInt(day) > arrDay[Integer.parseInt(month)-1] || 
+               Integer.parseInt(day) < 1){
                 System.out.println("#" +i + " -1");
                 continue;
             }
-            
-            StringBuilder sb = new StringBuilder(str);
-            sb.insert(4,"/");
-            sb.insert(7,"/");
-            System.out.println("#" + i + " " + sb);
+
+            System.out.println("#" + i + " " + year + "/" + month + "/" + day);
         }
     }
 }
