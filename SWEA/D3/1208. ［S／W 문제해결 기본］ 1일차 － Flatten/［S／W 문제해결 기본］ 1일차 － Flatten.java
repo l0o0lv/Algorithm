@@ -2,7 +2,7 @@ import java.util.*;
 import java.lang.*;
 import java.io.*;
 
-class Solution {
+class Solution {
     public static void main(String[] args) throws Exception{
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,24 +19,26 @@ class Solution {
             for(int j = 0 ; j < 100 ; j++)
                 list.add(Integer.parseInt(st.nextToken()));
 
-            for(int k = 0 ; k < tryCount ; k++){
-                int max = Collections.max(list);
-                int min = Collections.min(list);
+            System.out.println(getdistance(list,tryCount));
+            
+        }
+    }
 
-                if((max - min) == 0)
-                    break;
-
-                list.set(list.indexOf(max), max - 1);
-                list.set(list.indexOf(min), min + 1);
-            }
-
+    public static int getdistance(List<Integer> list, int tryCount){
+        for(int k = 0 ; k < tryCount ; k++){
             int max = Collections.max(list);
             int min = Collections.min(list);
 
-            int answer = max - min;
+            if((max - min) == 0)
+                return 0;
 
-            System.out.println(answer);
-            
+            list.set(list.indexOf(max), max - 1);
+            list.set(list.indexOf(min), min + 1);
         }
+
+        int max = Collections.max(list);
+        int min = Collections.min(list);
+
+        return max - min;
     }
 }
