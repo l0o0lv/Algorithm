@@ -4,7 +4,7 @@ import java.io.*;
 class Main {
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         ArrayList<Integer> list = new ArrayList<>();
         int N = Integer.parseInt(br.readLine());
 
@@ -15,9 +15,9 @@ class Main {
         Collections.sort(list);
 
         for(int i = 0 ; i < N ; i++){
-            sb.append(list.get(i) + "\n");
+            bw.write(list.get(i) + "\n");
         }
 
-        System.out.print(sb);
+        bw.flush();
     }
 }
