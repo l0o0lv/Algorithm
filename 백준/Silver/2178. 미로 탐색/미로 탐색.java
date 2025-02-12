@@ -52,7 +52,7 @@ class Main {
                 int nextX = now.x + dx[i];
                 int nextY = now.y + dy[i];
 
-                if(nextX > 0 && nextY > 0 && nextX <= N && nextY <=M && miro[nextX][nextY] != 0 && !visited[nextX][nextY]){
+                if(nextX <= N && nextY <=M && miro[nextX][nextY] != 0 && !visited[nextX][nextY]){
                     q.offer(new Node(nextX, nextY));
                     visited[nextX][nextY] = true;
                     miro[nextX][nextY] = miro[now.x][now.y] + 1;
