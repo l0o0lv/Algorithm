@@ -19,7 +19,6 @@ class Main {
             if(nextX < 0 || nextX >= R || nextY < 0 || nextY >= C) continue;
             if(!visited.add(alphabet[nextX][nextY])) continue;
 
-            visited.add(alphabet[nextX][nextY]);
             dfs(nextX, nextY, count + 1);
             visited.remove(alphabet[nextX][nextY]);
         }
