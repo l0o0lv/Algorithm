@@ -4,29 +4,33 @@ import java.io.*;
 class Solution {
     static int V, E;
     static ArrayList<ArrayList<Integer>> graph;
-    static int[] inDegree;
-    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static int[] indegree;
+    static StringBuilder sb = new StringBuilder();
 
-    static void topological() throws Exception{
+    static void topological(){
         Queue<Integer> q = new LinkedList<>();
 
-        for(int i = 1 ; i < V + 1; i++){
-            if(inDegree[i] == 0) q.offer(i);
+        for(int i = 1 ; i <= V ; i++){
+            if(indegree[i] == 0){
+                q.offer(i);
+            }
         }
 
         while(!q.isEmpty()){
             int now = q.poll();
-            bw.write(" " + now);
-            for(int next : graph.get(now)){
-                if(--inDegree[next] == 0){
-                    q.offer(next);
-                }
+
+            if(indegree[now] == 0) sb.append(" " + now);
+
+            ArrayList<Integer> list = graph.get(now);
+
+            for(int i = 0 ; i < list.size() ; i++){
+                int next = list.get(i);
+                if(--indegree[next] == 0) q.offer(next);
             }
         }
     }
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        
         StringTokenizer st;
         
         for(int tc = 1 ; tc <= 10 ; tc++){
@@ -35,27 +39,27 @@ class Solution {
             V = Integer.parseInt(st.nextToken());
             E = Integer.parseInt(st.nextToken());
 
+            indegree = new int[V + 1];
             graph = new ArrayList<>();
-            inDegree = new int[V + 1];
-            
-            for(int i = 0 ; i < V + 1 ; i++){
+
+            for(int i = 0 ; i <= V ; i++){
                 graph.add(new ArrayList<>());
             }
 
             st = new StringTokenizer(br.readLine());
-
             for(int i = 0 ; i < E ; i++){
-                int u = Integer.parseInt(st.nextToken());
-                int v = Integer.parseInt(st.nextToken());    
+                int a = Integer.parseInt(st.nextToken());
+                int b = Integer.parseInt(st.nextToken());
 
-                graph.get(u).add(v);
-                inDegree[v]++;
+                graph.get(a).add(b);
+                indegree[b]++;
             }
 
-            bw.write("#" + tc);
+            sb.append("#" + tc);
             topological();
-            bw.write("\n");
+            sb.append("\n");
+            
         }
-        bw.flush();
+        System.out.print(sb);
     }
 }
