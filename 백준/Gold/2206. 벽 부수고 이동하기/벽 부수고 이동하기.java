@@ -7,7 +7,7 @@ class Main {
     static int[][] map;
     static int[] dx = {1, -1, 0, 0};
     static int[] dy = {0, 0, 1, -1};
-    static int n, m, minDistance;
+    static int n, m;
 
     static class Node{
         int x, y, distance, breakCnt;
@@ -25,7 +25,6 @@ class Main {
 
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-        minDistance = Integer.MAX_VALUE;
 
         visited = new boolean[2][n][m];
         map = new int[n][m];
@@ -36,17 +35,11 @@ class Main {
                 map[i][j] = mapText.charAt(j) - '0';
             }
         }
-        bfs();
-
-        if(minDistance == Integer.MAX_VALUE){
-            System.out.println("-1");
-        }
-        else{
-            System.out.println(minDistance);
-        }
+        
+        System.out.println(bfs());
     }
 
-    static void bfs(){
+    static int bfs(){
         Queue<Node> q = new LinkedList<>();
         q.offer(new Node(0, 0, 1, 1));
         visited[1][0][0] = true;
@@ -55,29 +48,28 @@ class Main {
             Node now = q.poll();
 
             if(now.x == n - 1 && now.y == m -1){
-                minDistance = Math.min(minDistance, now.distance);
+                return now.distance;
             }
+            
             for(int i = 0 ; i < 4 ; i++){
                 int nextX = now.x + dx[i];
                 int nextY = now.y + dy[i];
 
-                if(nextX >= 0 && nextX < n
-                  && nextY >= 0 && nextY < m){
-                    if(map[nextX][nextY] == 0 && now.breakCnt == 0 && !visited[0][nextX][nextY]){
-                        visited[0][nextX][nextY] = true;
-                        q.offer(new Node(nextX, nextY, now.distance + 1, now.breakCnt));
-                    }
-                    else if(map[nextX][nextY] == 0 && now.breakCnt == 1 && !visited[1][nextX][nextY]){
-                        visited[1][nextX][nextY] = true;
-                        q.offer(new Node(nextX, nextY, now.distance + 1, now.breakCnt));
-                    }
-                    else if(map[nextX][nextY] == 1 && now.breakCnt == 1 && !visited[0][nextX][nextY]){
-                        visited[0][nextX][nextY] = true;
-                        q.offer(new Node(nextX, nextY, now.distance + 1, now.breakCnt - 1));
-                    }
-                    
-                  }
+                if(nextX < 0 || nextX >= n || nextY < 0 || nextY >= m) continue;
+
+                int breakCnt = now.breakCnt;
+
+                if(map[nextX][nextY] == 1){
+                    if(breakCnt == 0) continue;
+                    breakCnt--;
+                }
+
+                if(!visited[breakCnt][nextX][nextY]){
+                    visited[breakCnt][nextX][nextY] = true;
+                    q.offer(new Node(nextX, nextY, now.distance + 1, breakCnt));
+                }
             }
         }
+        return -1;
     }
 }
