@@ -62,6 +62,7 @@ class Main {
                 cityChickenDist += homeChickenDist;
             }
             answer = Math.min(answer, cityChickenDist);
+            return;
         }
 
         for(int i = index ; i < chicken.size() ; i++){
