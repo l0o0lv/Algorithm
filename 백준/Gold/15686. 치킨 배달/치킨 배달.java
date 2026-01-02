@@ -45,10 +45,10 @@ class Main {
 
     static void dfs(int index, int count){
         if(count == m){
-            int res = 0;
+            int cityChickenDist = 0;
 
             for(int i = 0 ; i < home.size() ; i++){
-                int temp = Integer.MAX_VALUE;
+                int homeChickenDist = Integer.MAX_VALUE;
                 Node curHome = home.get(i);
                 
                 for(int j = 0 ; j < chicken.size() ; j++){
@@ -56,12 +56,12 @@ class Main {
                         Node curChicken = chicken.get(j);
                         
                         int dist = Math.abs(curHome.x - curChicken.x) + Math.abs(curHome.y - curChicken.y);
-                        temp = Math.min(temp, dist);
+                        homeChickenDist = Math.min(homeChickenDist, dist);
                     }
                 }
-                res += temp;
+                cityChickenDist += homeChickenDist;
             }
-            answer = Math.min(answer, res);
+            answer = Math.min(answer, cityChickenDist);
         }
 
         for(int i = index ; i < chicken.size() ; i++){
