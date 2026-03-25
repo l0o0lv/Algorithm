@@ -26,6 +26,9 @@ class Solution {
             privacyMonth += map.get(type);
             
             if(privacyMonth > 12){
+                //2022년 12월 + 12개월 → 2024년 0월은 존재하지 않는 날짜임. 결과는 2023년 12월
+                //Month가 24, 36이면 Month 더해줄 때 0이 더해짐.
+                //그래서 -1한 값으로 나머지를 구하고, +1 해주면 된다.
                 privacyYear += (privacyMonth - 1) / 12;
                 privacyMonth = (privacyMonth -  1) % 12 + 1;
             }
