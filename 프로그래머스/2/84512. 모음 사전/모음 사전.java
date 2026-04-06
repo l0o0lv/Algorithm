@@ -12,7 +12,7 @@ class Solution {
     static void dfs(String word, String now){
         if(word.equals(now)) answer = count;
         
-        if(now.length() == 5) return;
+        if(now.length() == 5 || answer != 0) return;
         
         for(int i = 0 ; i < 5 ; i++){
             count++;
