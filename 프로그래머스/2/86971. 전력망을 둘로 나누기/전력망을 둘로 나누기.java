@@ -1,12 +1,9 @@
 import java.util.*;
 
 class Solution {
-    static int answer = Integer.MAX_VALUE;
-    static ArrayList<ArrayList<Integer>> list;
-    
     public int solution(int n, int[][] wires) {
-        
-        list = new ArrayList<>();
+        int answer = Integer.MAX_VALUE;
+        List<List<Integer>> list = new ArrayList<>();
         
         for(int i = 0 ; i <= n ; i++){
             list.add(new ArrayList<>());
@@ -15,6 +12,7 @@ class Solution {
         for(int i = 0 ; i < wires.length ; i++){
             int a = wires[i][0];
             int b = wires[i][1];
+            
             list.get(a).add(b);
             list.get(b).add(a);
         }
@@ -22,29 +20,42 @@ class Solution {
         for(int i = 0 ; i < wires.length ; i++){
             int a = wires[i][0];
             int b = wires[i][1];
-            bfs(a, b, n);
+            
+            list.get(a).remove(Integer.valueOf(b));
+            list.get(b).remove(Integer.valueOf(a));
+            
+            int cnt = bfs(list, 1, n);
+            
+            answer = Math.min(answer, Math.abs((n - cnt) - cnt));
+            
+            list.get(a).add(b);
+            list.get(b).add(a);
         }
-        
         return answer;
     }
     
-    static void bfs(int a, int b, int n){
+    static int bfs(List<List<Integer>> list, int start, int n){
         Queue<Integer> q = new ArrayDeque<>();
         boolean[] visited = new boolean[n + 1];
-        q.add(a);
-        visited[a] = true;
-        int cnt = 0;
+        
+        int cnt = 1;
+        q.offer(start);
+        visited[start] = true;
         
         while(!q.isEmpty()){
             int now = q.poll();
-            cnt++;
-            for(int num : list.get(now)){
-                if(num == b || visited[num]) continue;
-                visited[num] = true;
-                q.add(num);
-            } 
+            
+            List<Integer> nextWire = list.get(now);
+            for(int i = 0 ; i < nextWire.size() ; i++){
+                int next = nextWire.get(i);
+                
+                if(!visited[next]){
+                    q.offer(next);
+                    visited[next] = true;
+                    cnt++;
+                }
+            }
         }
-        
-        answer = Math.min(answer, Math.abs(n - 2 * cnt));
+        return cnt;
     }
 }
