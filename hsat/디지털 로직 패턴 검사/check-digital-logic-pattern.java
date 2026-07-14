@@ -18,12 +18,7 @@ public class Main {
         }
 
         hm.put(p, 1);
-
-        if(m == 1){
-            System.out.println("1");
-            return;
-        }
-
+        
         for(int i = k ; i < num.length() ; i++){
             p = (p * 2) + num.charAt(i) - '0';
             p = p - ((num.charAt(i - k) - '0') * (1L << k));
