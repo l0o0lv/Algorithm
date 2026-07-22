@@ -1,42 +1,38 @@
-import java.util.Scanner;
 import java.util.*;
-
 public class Main {
-    static ArrayList<ArrayList<Integer>> node;
-    static int n, m, k;
+    static List<List<Integer>> map;
     static int[] maxDist;
     static int[] reachCnt;
+    static int n;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
         n = sc.nextInt();
-        m = sc.nextInt();
-        k = sc.nextInt();
-        int answer = Integer.MAX_VALUE;
+        int m = sc.nextInt();
+        int k = sc.nextInt();
+        int[] startPoints = new int[k];
+        map = new ArrayList<>();
         maxDist = new int[n + 1];
-        reachCnt = new int[n+ 1];
-        node = new ArrayList<>();
+        reachCnt = new int[n + 1];
+        int answer = Integer.MAX_VALUE;
 
         for(int i = 0 ; i <= n ; i++){
-            node.add(new ArrayList<>()); 
+            map.add(new ArrayList<>());
         }
 
         for (int i = 0; i < m; i++) {
             int a = sc.nextInt();
             int b = sc.nextInt();
 
-            node.get(a).add(b);
+            map.get(a).add(b);
         }
 
-        int[] startPoints = new int[k];
         for (int i = 0; i < k; i++) {
-            startPoints[i] = sc.nextInt();
+            int start = sc.nextInt();
+            bfs(start);
         }
-
-        for(int i =  0 ; i < k ; i++){
-            bfs(startPoints[i]);
-        }
-
+        
         for(int i = 1 ; i <= n ; i++){
             if(reachCnt[i] == k){
                 answer = Math.min(answer, maxDist[i]);
@@ -51,18 +47,17 @@ public class Main {
         }
     }
 
-    static void bfs(int idx){
+    static void bfs(int start){
         Queue<Integer> q = new ArrayDeque<>();
-        q.offer(idx);
         int[] dist = new int[n + 1];
-
         Arrays.fill(dist, -1);
-        dist[idx] = 0;
+        dist[start] = 0;
+        q.offer(start);
 
         while(!q.isEmpty()){
             int now = q.poll();
 
-            for(int next : node.get(now)){
+            for(int next : map.get(now)){
                 if(dist[next] == -1){
                     dist[next] = dist[now] + 1;
                     q.offer(next);
